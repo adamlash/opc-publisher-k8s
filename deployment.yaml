@@ -49,8 +49,13 @@ spec:
                 key: connstring
         volumeMounts:
         - mountPath: "/etc/opcconfig"
-          name: opc-configmap-volume        
+          name: opc-configmap-volume 
+        - mountPath: "/mnt"
+          name: opc-cert-volume     
       volumes:
         - name: opc-configmap-volume
           configMap:
             name: opc-configmap
+        - name: opc-cert-volume
+          persistentVolumeClaim:
+            claimName: opc-managed-disk
