@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opc-publisher-deployment
+  labels:
+    app: opc-publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opc-publisher
+  template:
+    metadata:
+      labels:
+        app: opc-publisher
+    spec:
+      containers:
+      - name: opcpub
+        image: mcr.microsoft.com/iotedge/opc-publisher:2.8
+        args:
+        - "--me"
+        - "Json"
+        - "--mm"
+        - "PubSub"
+        - "--aa"
+        - "--fd"
+        - "True"
+        - "--pf"
+        - "/etc/opcconfig/pn-opcpubdemo.json"
+        - "--lf"
+        - "/mnt/logs/opcpubdemo.txt"
+        - "--at"
+        - "Directory"
+        - "--ih"
+        - "MqttOverWebsocket"
+        - "--ip"
+        - "/mnt/certs/opcpub01/issuers"
+        - "--tp"
+        - "/mnt/certs/opcpub01/trusted"
+        - "--ap"
+        - "/mnt/certs/opcpub01/own"
+        - "--dc"
+        - "$(deviceconnectionstring)"
+        env:
+          - name: deviceconnectionstring
+            valueFrom:
+              secretKeyRef:
+                name: opcpubdemo-conn
+                key: connstring
+        volumeMounts:
+        - mountPath: "/etc/opcconfig"
+          name: opc-configmap-volume        
+      volumes:
+        - name: opc-configmap-volume
+          configMap:
+            name: opc-configmap

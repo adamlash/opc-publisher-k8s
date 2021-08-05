@@ -1,0 +1,11 @@
+[
+  {
+    "EndpointUrl": "MYENDPOINT",
+    "UseSecurity": false,
+    "OpcNodes": [
+      {
+        "Id": "ns=2;s=SlowUInt1"
+      }
+    ]
+  }
+]
