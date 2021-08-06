@@ -6,7 +6,7 @@ Quick Example showing an OPC Publisher on K8s
 - kubectl
 
 ## Steps
-0. Edit the json file to reflect your desired config.
+0. Edit the json file to reflect your desired config under *config/pn-opcpubdemo.json*.
 1. Create NS `kubectl create ns opc`
     - (Optional) to save you typing in --namespace opc you can switch your k8s context to be here permanently `kubectl config set-context --current --namespace=opc`
 2. Create ConfigMap from the json config file `kubectl create configmap opc-configmap  --from-file=config/pn-opcpubdemo.json --namespace opc`
