@@ -1,11 +1,27 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: opc-managed-files
+provisioner: kubernetes.io/azure-file
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=0
+  - gid=0
+  - mfsymlinks
+  - cache=strict
+  - actimeo=30
+parameters:
+  skuName: Standard_GRS
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: opc-managed-disk
 spec:
   accessModes:
-  - ReadWriteOnce
-  storageClassName: managed-premium
+    - ReadWriteMany
+  storageClassName: opc-managed-files
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
